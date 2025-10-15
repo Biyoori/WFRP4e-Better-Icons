@@ -11,6 +11,7 @@ A Foundry VTT module that enhances icons for the Warhammer Fantasy Roleplay 4th 
 ## Installation
 
 Install the module via this Manifest URL in the Add-on Modules tab of Foundry VTT setup:
+https://github.com/Biyoori/WFRP4e-Better-Icons/releases/latest/download/module.json
 
 ## Requirements
 
