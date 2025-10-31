@@ -39,4 +39,4 @@ The module will automatically detect and apply new icons when items are created.
 Discord: yuuri_was_taken
 
 ## Version
-1.0.0
+1.1.0
