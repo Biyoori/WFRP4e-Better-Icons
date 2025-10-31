@@ -1,16 +1,17 @@
 import { loadSkillIcon, LoadTalentIcon } from "./src/load-icons.mjs";
-import { registerSettings } from "./src/settings.mjs";
+import { registerSettings} from "./src/settings.mjs";
 
 Hooks.once('init', async () => {
     await registerSettings();
 });
 
 Hooks.once('ready', async () => {
-  const corePack = game.packs.get("wfrp4e-core.items");
-  if (!corePack) {
-    console.error("WFRP4E Better Icons | Could not find wfrp4e-core compendium packs.");
-    return;
-  }
+    console.log("Better Icons | WFRP4E Better Icons is ready!");
+    const corePack = game.packs.get("wfrp4e-core.items");
+    if (!corePack) {
+        console.error("WFRP4E Better Icons | Could not find wfrp4e-core compendium packs.");
+        return;
+    }
 });
 
 Hooks.on('createItem', async (item, options, userId) => {
@@ -40,6 +41,14 @@ Hooks.on('createActor', async (actor, options, userId) => {
 });
 
 Hooks.on('renderActorSheetV2', async (app, html, context, options) => {
+    app.options.actions.refreshSkillIcons = async () => {
+        console.log("Refreshing skill icons");
+        for (const item of app.actor.items) {
+            if (item.type !== "skill") continue;
+            loadSkillIcon(item);
+        }
+    };
+
     if (!game.settings.get("wfrp4e-better-icons", "enableSkillIcons")) return;
     if (context.actor.type !== "character" && context.actor.type !== "npc") return;
 
@@ -77,3 +86,11 @@ Hooks.on('renderActorSheetV2', async (app, html, context, options) => {
     }
 });
 
+Hooks.on("getHeaderControlsApplicationV2", (app, buttons) => {
+    buttons.unshift({
+        label: "Refresh Skill Icons",
+        icon: "fas fa-sync",
+        class: "refresh-skill-icons",
+        action: "refreshSkillIcons"
+    });
+});
